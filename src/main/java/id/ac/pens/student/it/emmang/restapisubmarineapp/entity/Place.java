@@ -1,5 +1,7 @@
 package id.ac.pens.student.it.emmang.restapisubmarineapp.entity;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -21,7 +23,7 @@ public class Place {
     private String ticket;
     private String description;
 
-    @OneToMany(targetEntity = PlaceGallery.class, mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(targetEntity = PlaceGallery.class, mappedBy = "place", cascade = CascadeType.ALL)
     private Set<PlaceGallery> galleries;
 
     public Place() {

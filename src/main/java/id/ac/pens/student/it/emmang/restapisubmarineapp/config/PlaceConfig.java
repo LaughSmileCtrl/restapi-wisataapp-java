@@ -21,20 +21,22 @@ public class PlaceConfig {
                                         MainImageRepository mainImageRepository) {
         return (args -> {
 
-            var mainImage1 = new MainImage("https://free-images.com/sm/85cd/illinois_beach_state_park_0.jpg");
-            var mainImage2 = new MainImage("https://free-images.com/sm/af9d/beaches_ocean_waves.jpg");
+            var mainImage1 = new MainImage("mainImage1");
+            mainImage1.setSrc("https://free-images.com/sm/85cd/illinois_beach_state_park_0.jpg");
+            var mainImage2 = new MainImage("mainImage2");
+            mainImage2.setSrc("https://free-images.com/sm/af9d/beaches_ocean_waves.jpg");
 
             var gallery1 = Set.of(
-                    new PlaceGallery("https://free-images.com/sm/7c47/beach_at_trabane_strand_0.jpg"),
-                    new PlaceGallery("https://free-images.com/sm/b29f/beach_ocean_waves_coast_0.jpg"),
-                    new PlaceGallery("https://free-images.com/sm/85cd/illinois_beach_state_park_0.jpg"),
-                    new PlaceGallery("https://free-images.com/sm/cf65/beach_closed_area.jpg")
+                    new PlaceGallery("place-gallery_1-1","https://free-images.com/sm/7c47/beach_at_trabane_strand_0.jpg"),
+                    new PlaceGallery("place-gallery_1-2","https://free-images.com/sm/b29f/beach_ocean_waves_coast_0.jpg"),
+                    new PlaceGallery("place-gallery_1-3","https://free-images.com/sm/85cd/illinois_beach_state_park_0.jpg"),
+                    new PlaceGallery("place-gallery_1-4","https://free-images.com/sm/cf65/beach_closed_area.jpg")
             );
 
             var gallery2 = Set.of(
-                    new PlaceGallery("https://free-images.com/sm/b7d0/waterfall_hutan_simpan_dara.jpg"),
-                    new PlaceGallery("https://free-images.com/sm/12f8/florest_0125.jpg"),
-                    new PlaceGallery("https://free-images.com/sm/f4e5/hutan_pinus_mangunan.jpg")
+                    new PlaceGallery("place-gallery_2-1","https://free-images.com/sm/b7d0/waterfall_hutan_simpan_dara.jpg"),
+                    new PlaceGallery("place-gallery_2-2","https://free-images.com/sm/12f8/florest_0125.jpg"),
+                    new PlaceGallery("place-gallery_2-3","https://free-images.com/sm/f4e5/hutan_pinus_mangunan.jpg")
             );
 
             var place1 = new Place(

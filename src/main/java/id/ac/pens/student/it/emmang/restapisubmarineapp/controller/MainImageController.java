@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @RestController
-@RequestMapping("/api/v1/main-image")
+@RequestMapping("/api/v1/tourism-places")
 public class MainImageController {
     private MainImageService mainImageService;
 
@@ -25,7 +25,7 @@ public class MainImageController {
         this.mainImageService = mainImageService;
     }
 
-    @GetMapping(path = "{placeId}")
+    @GetMapping(path = "{placeId}/main-image")
     public ResponseEntity<Resource> get(HttpServletRequest request,
                                         @PathVariable("placeId") Long placeId) throws IOException {
         Path mainImagePath = mainImageService.get(placeId);
@@ -38,16 +38,16 @@ public class MainImageController {
                 .body(mainImageResource);
     }
 
-    @PutMapping(path = "{placeId}")
+    @PutMapping(path = "{placeId}/main-image")
     public MainImage store(HttpServletRequest request,
                            @PathVariable Long placeId,
-                           @RequestParam("mainImage") MultipartFile mainImage) {
+                           @RequestParam("main-image") MultipartFile mainImage) {
         String src = request.getRequestURL().toString();
         return mainImageService.store(placeId, mainImage, src);
     }
 
-    @DeleteMapping(path = "{placeId}")
-    public void store(HttpServletRequest request,
+    @DeleteMapping(path = "{placeId}/main-image")
+    public void delete(HttpServletRequest request,
                            @PathVariable Long placeId) {
         mainImageService.delete(placeId);
     }

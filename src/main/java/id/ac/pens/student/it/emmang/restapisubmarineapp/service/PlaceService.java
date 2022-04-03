@@ -1,17 +1,19 @@
 package id.ac.pens.student.it.emmang.restapisubmarineapp.service;
 
-import id.ac.pens.student.it.emmang.restapisubmarineapp.entity.MainImage;
+import id.ac.pens.student.it.emmang.restapisubmarineapp.controller.PlaceController;
 import id.ac.pens.student.it.emmang.restapisubmarineapp.entity.Place;
-import id.ac.pens.student.it.emmang.restapisubmarineapp.entity.PlaceGallery;
 import id.ac.pens.student.it.emmang.restapisubmarineapp.repository.MainImageRepository;
 import id.ac.pens.student.it.emmang.restapisubmarineapp.repository.PlaceGalleryRepository;
 import id.ac.pens.student.it.emmang.restapisubmarineapp.repository.PlaceRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 @Service
 public class PlaceService {
@@ -29,14 +31,15 @@ public class PlaceService {
     }
 
     public Map<String, Object> getPlaces() {
+        List<Place> places = placeRepository.findAll();
+
         return Map.of(
                 "totalResult", placeRepository.count(),
-                "places", placeRepository.findAll()
+                "places", places
         );
     }
 
     public Place storePlaces(Place place) {
-//        placeGalleryRepository.saveAll(place.getGalleries());
         placeRepository.save(place);
 
         return place;
@@ -57,17 +60,6 @@ public class PlaceService {
         placeOld.setHours(place.getHours());
         placeOld.setTicket(place.getTicket());
         placeOld.setDescription(place.getDescription());
-
-        MainImage mainImage = mainImageRepository.findByPlace(placeOld).get();
-        mainImage.setFilename(place.getMainImage().getFilename());
-
-        Set<PlaceGallery> oldGalleries = placeOld.getGalleries();
-        oldGalleries.forEach(placeGallery -> placeGallery.setPlace(null));
-        placeGalleryRepository.deleteAll(oldGalleries);
-
-        placeOld.setGalleries(place.getGalleries());
-        place.getGalleries()
-                .forEach(placeGallery -> placeGallery.setPlace(placeOld));
 
         return placeOld;
     }

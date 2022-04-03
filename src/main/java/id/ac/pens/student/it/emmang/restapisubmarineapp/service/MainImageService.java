@@ -43,25 +43,26 @@ public class MainImageService {
     public MainImage store(Long id, MultipartFile file, String src) {
         String suffix = file.getContentType().split("/")[1];
         String nameMainImage = String.format("main-image_%d.%s", id, suffix);
-        Optional<Place> placeOptional = placeRepository.findById(id);
+        Place place = placeRepository.findById(id)
+                .orElseThrow(() -> {
+                    throw new IllegalStateException("Place " + id + " not found");
+                });
 
-        if (placeOptional.isPresent()) {
-            try {
-                fileStorageService.save(file, nameMainImage);
+        try {
+            fileStorageService.save(file, nameMainImage);
 
-                if (!mainImageRepository.existsById(id)) {
-                    MainImage mainImage = new MainImage(nameMainImage, placeOptional.get(), src);
+            if (!mainImageRepository.existsById(id)) {
+                MainImage mainImage = new MainImage(nameMainImage, place, src);
 
-                    mainImageRepository.save(mainImage);
-                    placeOptional.get().setMainImage(mainImage);
-                }
-            } catch (IOException e) {
-                System.err.println("Rest ERROR : " + e.getMessage());
-                e.printStackTrace();
+                mainImageRepository.save(mainImage);
+                place.setMainImage(mainImage);
             }
+        } catch (IOException e) {
+            System.err.println("Rest ERROR : " + e.getMessage());
+            e.printStackTrace();
         }
 
-        return placeOptional.get().getMainImage();
+        return place.getMainImage();
     }
 
     @Transactional

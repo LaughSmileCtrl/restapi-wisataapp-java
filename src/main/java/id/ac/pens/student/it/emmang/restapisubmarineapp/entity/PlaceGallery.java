@@ -15,7 +15,7 @@ public class PlaceGallery {
     private String filename;
     private String src;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "place_id")
     @JsonBackReference
     private Place place;
@@ -24,6 +24,11 @@ public class PlaceGallery {
 
     public PlaceGallery(String filename) {
         this.filename = filename;
+    }
+
+    public PlaceGallery(String filename, String src) {
+        this.filename = filename;
+        this.src = src;
     }
 
     public PlaceGallery(Long id, String filename) {
@@ -67,7 +72,9 @@ public class PlaceGallery {
     public String toString() {
         return "PlaceGallery{" +
                 "id=" + id +
-                ", src='" + filename + '\'' +
+                ", filename='" + filename + '\'' +
+                ", src='" + src + '\'' +
+                ", place=" + place +
                 '}';
     }
 }
