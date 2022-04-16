@@ -19,18 +19,18 @@ public class StorageConfig {
             Path fileStorageLocation = Paths.get(fileStorageProperty.getUploadDir())
                     .toAbsolutePath()
                     .normalize();
-            try {
-//                Files.list(fileStorageLocation).forEach(path -> {
-//                    try {
-//                        Files.delete(path);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                });
-                Files.createDirectories(fileStorageLocation);
-            } catch (Exception exception) {
-                throw new IllegalStateException("Could not create the directory where the uploaded files will be stored.", exception);
+            if (Files.exists(fileStorageLocation)) {
+                Files.list(fileStorageLocation).forEach(path -> {
+                    try {
+                        Files.delete(path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
             }
+            Files.createDirectories(fileStorageLocation);
+
         };
     }
 }

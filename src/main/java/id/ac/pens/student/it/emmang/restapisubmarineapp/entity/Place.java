@@ -1,7 +1,5 @@
 package id.ac.pens.student.it.emmang.restapisubmarineapp.entity;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -21,10 +19,12 @@ public class Place {
     private String open;
     private String hours;
     private String ticket;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @OneToMany(targetEntity = PlaceGallery.class, mappedBy = "place", cascade = CascadeType.ALL)
-    private Set<PlaceGallery> galleries;
+    private Set<PlaceGallery> placeGalleries;
 
     public Place() {
     }
@@ -50,7 +50,7 @@ public class Place {
                  String hours,
                  String ticket,
                  String description,
-                 Set<PlaceGallery> galleries) {
+                 Set<PlaceGallery> placeGalleries) {
         this.name = name;
         this.location = location;
         this.open = open;
@@ -59,7 +59,7 @@ public class Place {
         this.description = description;
 
         setMainImage(mainImage);
-        setGalleries(galleries);
+        setPlaceGalleries(placeGalleries);
     }
 
     public Place(Long id,
@@ -70,7 +70,7 @@ public class Place {
                  String hours,
                  String ticket,
                  String description,
-                 Set<PlaceGallery> galleries) {
+                 Set<PlaceGallery> placeGalleries) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -78,10 +78,10 @@ public class Place {
         this.hours = hours;
         this.ticket = ticket;
         this.description = description;
-        this.galleries = galleries;
+        this.placeGalleries = placeGalleries;
 
         setMainImage(mainImage);
-        setGalleries(galleries);
+        setPlaceGalleries(placeGalleries);
 
     }
 
@@ -115,7 +115,9 @@ public class Place {
 
     public void setMainImage(MainImage mainImage) {
         this.mainImage = mainImage;
-        mainImage.setPlace(this);
+        if (mainImage != null) {
+            mainImage.setPlace(this);
+        }
     }
 
     public String getOpen() {
@@ -150,13 +152,15 @@ public class Place {
         this.description = description;
     }
 
-    public Set<PlaceGallery> getGalleries() {
-        return galleries;
+    public Set<PlaceGallery> getPlaceGalleries() {
+        return placeGalleries;
     }
 
-    public void setGalleries(Set<PlaceGallery> galleries) {
-        this.galleries = galleries;
-        galleries.forEach(placeGallery -> placeGallery.setPlace(this));
+    public void setPlaceGalleries(Set<PlaceGallery> placeGalleries) {
+        this.placeGalleries = placeGalleries;
+        if (placeGalleries != null) {
+            placeGalleries.forEach(placeGallery -> placeGallery.setPlace(this));
+        }
     }
 
     @Override
@@ -170,7 +174,7 @@ public class Place {
                 ", hours='" + hours + '\'' +
                 ", ticket='" + ticket + '\'' +
                 ", description='" + description + '\'' +
-                ", galleries=" + galleries +
+                ", galleries=" + placeGalleries +
                 '}';
     }
 }

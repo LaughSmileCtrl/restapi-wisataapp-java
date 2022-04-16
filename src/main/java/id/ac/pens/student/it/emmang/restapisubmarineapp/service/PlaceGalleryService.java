@@ -35,7 +35,7 @@ public class PlaceGalleryService {
                 .orElseThrow(() -> {
                     throw new IllegalStateException("Place " + id + " not found");
                 })
-                .getGalleries()
+                .getPlaceGalleries()
                 .stream()
                 .filter(placeGallery -> placeGallery.getId() == id)
                 .toList();
@@ -79,7 +79,7 @@ public class PlaceGalleryService {
                 .orElseThrow(() -> {
                     throw new IllegalStateException("Place " + id + " not found");
                 })
-                .getGalleries()
+                .getPlaceGalleries()
                 .stream()
                 .filter(placeGallery -> placeGallery.getId() == id)
                 .findFirst();
@@ -105,7 +105,7 @@ public class PlaceGalleryService {
                 .orElseThrow(() -> {
                     throw new IllegalStateException("Place " + id + " not found");
                 })
-                .getGalleries();
+                .getPlaceGalleries();
         Optional<PlaceGallery> optionalPlaceGallery = galleries.stream()
                 .filter(placeGallery -> placeGallery.getId() == id)
                 .findFirst();

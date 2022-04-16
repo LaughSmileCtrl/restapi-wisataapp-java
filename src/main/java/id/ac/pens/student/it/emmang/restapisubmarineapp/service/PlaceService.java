@@ -40,6 +40,8 @@ public class PlaceService {
     }
 
     public Place storePlaces(Place place) {
+        place.setMainImage(null);
+        place.setPlaceGalleries(null);
         placeRepository.save(place);
 
         return place;

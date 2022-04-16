@@ -40,6 +40,7 @@ public class MainImageService {
         return fileStorageService.getPath(fileName);
     }
 
+    @Transactional
     public MainImage store(Long id, MultipartFile file, String src) {
         String suffix = file.getContentType().split("/")[1];
         String nameMainImage = String.format("main-image_%d.%s", id, suffix);
@@ -49,14 +50,18 @@ public class MainImageService {
                 });
 
         try {
-            fileStorageService.save(file, nameMainImage);
 
             if (!mainImageRepository.existsById(id)) {
                 MainImage mainImage = new MainImage(nameMainImage, place, src);
 
                 mainImageRepository.save(mainImage);
                 place.setMainImage(mainImage);
+            } else {
+                fileStorageService.delete(place.getMainImage().getFilename());
+                place.getMainImage().setFilename(nameMainImage);
             }
+
+            fileStorageService.save(file, nameMainImage);
         } catch (IOException e) {
             System.err.println("Rest ERROR : " + e.getMessage());
             e.printStackTrace();
