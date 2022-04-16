@@ -1,1 +1,1 @@
-web: java Dserver.port:$PORT -jar target/rest-api-submarine-app-2.0.0-SNAPSHOT.jar
+web: java Dserver.port:$PORT -jar -Dspring.profiles.active=heroku target/rest-api-submarine-app-2.0.0-SNAPSHOT.jar
